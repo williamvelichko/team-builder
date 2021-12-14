@@ -1,3 +1,4 @@
+import React from "react";
 export default function Form(props) {
   const { values, update, submit } = props;
 
@@ -12,7 +13,7 @@ export default function Form(props) {
   };
 
   return (
-    <form className="form-container" onSubmit={onSubmit}>
+    <form className="form container" onSubmit={onSubmit}>
       <div className="form-inputs">
         <label>
           Name
@@ -35,6 +36,26 @@ export default function Form(props) {
           />
         </label>
         <label>
+          Age
+          <input
+            name="age"
+            type="text"
+            placeholder="type your age here"
+            value={values.age}
+            onChange={onChange}
+          />
+        </label>
+        <label>
+          Height
+          <input
+            name="height"
+            type="text"
+            placeholder="type your height here"
+            value={values.height}
+            onChange={onChange}
+          />
+        </label>
+        <label>
           role
           <select value={values.role} name="role" onChange={onChange}>
             <option value="">-- Select a Role --</option>
@@ -46,7 +67,7 @@ export default function Form(props) {
           </select>
         </label>
         <div className="submit">
-          <button>Submit</button>
+          <button>Add Player</button>
         </div>
       </div>
     </form>

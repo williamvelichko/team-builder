@@ -8,6 +8,8 @@ import axios from "axios";
 const initialFormValues = {
   name: "",
   email: "",
+  age: "",
+  height: "",
   role: "",
 };
 
@@ -20,36 +22,52 @@ function App() {
     setFormValues({ ...formValues, [inputName]: inputValue });
   };
 
-  const SubmitForm = () => {
+  const SubmitForm = (evt) => {
     const newPlayer = {
       name: formValues.name.trim(),
       email: formValues.email.trim(),
+      age: formValues.age.trim(),
+      height: formValues.height.trim(),
       role: formValues.role,
     };
 
-    if (!newPlayer.name || !newPlayer.email || !newPlayer.role) {
+    if (
+      !newPlayer.name ||
+      !newPlayer.email ||
+      !newPlayer.role ||
+      !newPlayer.age ||
+      !newPlayer.height
+    ) {
       setError("All fields are required");
     } else {
-      axios
-        .get("fakeapi.com", newPlayer)
-        .then((res) => {
-          const playerFromServer = res.data;
-          setPlayers([playerFromServer, ...players]);
-          setFormValues(initialFormValues);
-        })
-        .catch((err) => console.error(err))
-        .finally(() => setError(""));
+      setPlayers(players.concat(newPlayer));
+      setFormValues(initialFormValues);
+      setError("");
     }
   };
-  useEffect(() => {
-    axios.get("fakeapi.com").then((res) => setPlayers(res.data));
-  }, []);
+  //   } else {
+  //     axios
+  //       .post("fakeapi.com", newPlayer)
+  //       .then((res) => {
+  //         const playerFromServer = res.data;
+  //         setPlayers([playerFromServer, ...players]);
+  //         setFormValues(initialFormValues);
+  //       })
+  //       .catch((err) => console.error(err))
+  //       .finally(() => setError(""));
+  //   }
+  // };
+  // useEffect(() => {
+  //   axios.get("fakeapi.com").then((res) => setPlayers(res.data));
+  // }, []);
 
   return (
-    <div className="App">
+    <div className="container">
+      <h1>Create Basketball Team</h1>
+      <h2>{error}</h2>
       <Form values={formValues} update={updateForm} submit={SubmitForm} />
-      {players.map((player) => {
-        return <Player key={player.id} details={player} />;
+      {players.map((player, idx) => {
+        return <Player key={idx} details={player} />;
       })}
     </div>
   );
